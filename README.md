@@ -1,6 +1,3 @@
 # MAC2023 analysis lab.
 
-## Steps in Qiime2
-
-
-## Steps in R
+## [Open the lab 😃](https://farhadm1990.github.io/MAC2023.github.io/)
