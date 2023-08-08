@@ -1,8 +1,8 @@
-<div style="justify-content: space-between;" >
-  <div style="order: 1;" >
+<div style="display: flex; justify-content: space-between;" >
+  <div style="order: 1; margin-left:0;" >
     <img src="https://github.com/farhadm1990/MAC2023.github.io/blob/main/logo.png" alt="Logo" width="100px" height="100px" />
   </div>
-  <div style="order: 2;" >
+  <div style="order: 2; margin-left:100%;">
     <img src="https://github.com/farhadm1990/MAC2023.github.io/blob/main/Ku-logo.png" alt="KU Logo" width="100px" height="100px" />
   </div>
 </div>
