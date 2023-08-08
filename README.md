@@ -1,8 +1,8 @@
 
-<div style="float:left;" >
+<div style="float: left;" >
    <img src="https://github.com/farhadm1990/MAC2023.github.io/blob/main/logo.png" alt="Logo" width="100px" height="100px" />
 </div>
-<div style="float:right;">
+<div style="float: right;">
    <img src="https://github.com/farhadm1990/MAC2023.github.io/blob/main/Ku-logo.png" alt="KU Logo" width="100px" height="100px" />
  </div>
 
