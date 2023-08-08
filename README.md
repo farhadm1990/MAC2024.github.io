@@ -1,4 +1,4 @@
-<div style="display: block; justify-content: space-between;" >
+<div style="display: line; justify-content: space-between;" >
   <div style="order: 1; margin-left:0;" >
     <img src="https://github.com/farhadm1990/MAC2023.github.io/blob/main/logo.png" alt="Logo" width="100px" height="100px" />
   </div>
