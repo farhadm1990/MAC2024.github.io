@@ -1,4 +1,4 @@
-<div style="display: flex; justify-content: space-between; align-items: center;">
+<div style="display: flex; flex-direction: row;">
     <div>
         <img src="https://github.com/farhadm1990/MAC2023.github.io/blob/main/logo.png" alt="Logo" width="100px" height="100px" />
     </div>
