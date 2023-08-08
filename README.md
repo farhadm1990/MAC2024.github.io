@@ -1,11 +1,12 @@
-<div style="display: flex; flex-direction: row;">
-    <div>
-        <img src="https://github.com/farhadm1990/MAC2023.github.io/blob/main/logo.png" alt="Logo" width="100px" height="90px" />
+<div style="display: flex;">
+    <div style="flex: 1; text-align: center;">
+        <img src="logo_url_here" alt="Logo" width="100px" height="100px" />
     </div>
-    <div>
-        <img src="https://github.com/farhadm1990/MAC2023.github.io/blob/main/Ku-logo.png" alt="KU Logo" width="100px" height="100px" />
+    <div style="flex: 1; text-align: center;">
+        <img src="ku_logo_url_here" alt="KU Logo" width="100px" height="100px" />
     </div>
 </div>
+
 
 
 
