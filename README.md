@@ -1,4 +1,4 @@
-![](https://github.com/farhadm1990/MAC2023.github.io/blob/main/logo.png){width=10px, height=10px} ![](https://github.com/farhadm1990/MAC2023.github.io/blob/main/Ku-logo.png){width=10px, height=10px} 
+![](https://github.com/farhadm1990/MAC2023.github.io/blob/main/logo.png){width=1in, height=1in} ![](https://github.com/farhadm1990/MAC2023.github.io/blob/main/Ku-logo.png){width=1in, height=1in} 
 
 
 # MAC2023 analysis lab.
