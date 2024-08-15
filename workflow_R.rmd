@@ -238,11 +238,10 @@ setwd("/home/hackion/Dropbox/Old-2gb/postdoc/mac2024")
 install.packages('installr')
 installr::updateR()
 
-github.pkg <- c("jfukuyama/phyloseqGraphTest", "jbisanz/qiime2R") 
-bioc.pkg <- c("phyloseq", "DESeq2", "ggtree", "vsn")
+# github.pkg <- c("jfukuyama/phyloseqGraphTest", "jbisanz/qiime2R") 
+bioc.pkg <- c("phyloseq", "DESeq2")
 
-cran.pkg <- c("tidyverse", "readr", "ape", "picante", "glue", "vegan", "devtools", "ggrepel", "reshape2", "BiocManager",
-              "ggnetwork", "DT", "lme4", 'broom', "pheatmap", "patchwork")
+cran.pkg <- c("tidyverse", "readr", "ape", "picante", "glue", "vegan", "devtools", "ggrepel", "reshape2", "BiocManager", "lme4", 'broom', "pheatmap", "patchwork")
 
 inst.pkg <- cran.pkg %in% installed.packages()
 
@@ -250,9 +249,8 @@ inst.pkg <- cran.pkg %in% installed.packages()
 
 if (any(!inst.pkg)){ install.packages(cran.pkg[!inst.pkg],repos = "http://cran.rstudio.com/") } 
  
-inst.pkg <- github.pkg %in% installed.packages() 
-if (any(!inst.pkg)){ devtools::install_github(github.pkg[!inst.pkg], force = TRUE) } 
-
+# inst.pkg <- github.pkg %in% installed.packages() 
+# if (any(!inst.pkg)){ devtools::install_github(github.pkg[!inst.pkg], force = TRUE) } 
 
 inst.pkg <- bioc.pkg %in% installed.packages() 
 if(any(!inst.pkg)){ BiocManager::install(bioc.pkg[!inst.pkg])
@@ -265,9 +263,8 @@ if(any(!inst.pkg)){ BiocManager::install(bioc.pkg[!inst.pkg])
 
 ```{r, loading, eval=FALSE, echo=TRUE, message=FALSE, warning=FALSE}
 
-pkg = c("tidyverse", "phyloseq", "DESeq2", "qiime2R" , "gridExtra", "BiocManager", 
-"vegan", "ggtree", "devtools", "ggrepel", "reshape2", 
-"pheatmap", "glue", "ape", "readr", "vsn", "vegan", "patchwork")
+pkg = c("tidyverse", "phyloseq", "DESeq2" , "gridExtra", "BiocManager", 
+"vegan",  "ggrepel", "reshape2", "pheatmap", "glue", "ape", "readr", "vegan", "patchwork")
 
 for(i in 1:length(pkg)){
 
