@@ -241,7 +241,7 @@ installr::updateR()
 # github.pkg <- c("jfukuyama/phyloseqGraphTest", "jbisanz/qiime2R") 
 bioc.pkg <- c("phyloseq", "DESeq2")
 
-cran.pkg <- c("tidyverse", "readr", "ape", "picante", "glue", "vegan", "devtools", "ggrepel", "reshape2", "BiocManager", "lme4", 'broom', "pheatmap", "patchwork")
+cran.pkg = c("tidyverse", "readr", "ape", "picante", "glue", "vegan", "devtools", "ggrepel", "reshape2", "BiocManager", "lme4", 'broom', "pheatmap", "patchwork")
 
 inst.pkg <- cran.pkg %in% installed.packages()
 
@@ -281,20 +281,45 @@ for(i in 1:length(pkg)){
 #### Data transformation with dplyr 
 
 ```{r}
+install.packages('nycflights13')
+
+variable_test = "Farhad"
+
+nr = c(1, 2, 3, 4)
+length(nrA)
+nrA = c(10, -1, 40, 20)
+
+char = c("Lui", "Guppy", "Shiva", "Malu")
+
+(df = data.frame(col1 = nr, col2 = nrA, Names = char))
+
+dim(df)
+
+df[,3] <- NULL
+df
+as.matrix(df)
+
+
+
+
 library(nycflights13)
-library(tidyverse)
+
 
 str(nycflights13::flights)
 
+dim(flights)
+
 nycflights13::flights %>% dim()
-nycflights13::flights 
+nycflights13::flights %>% as.data.frame()
+
+
 
 # • int stands for integers.
 # • dbl stands for doubles, or real numbers.
 # • chr stands for character vectors, or strings. • dttm stands for date-times (a date + a time).
 
 
-names(nycflights13::flights)
+names(flights)
 
 ```
 
@@ -305,9 +330,11 @@ names(nycflights13::flights)
 
 ```{r}
 
-flights %>% filter( month == 1, day == 1)
+flights %>% filter( month == 1, day == 1, year >= 2013, month %in% c(1, 3, 8))
+
 flights |> filter( month == 1, day == 1)
-filter(flights, month == 1, day == 1)
+
+
 
 (dec25 <- flights %>% filter(month == 12, day == 25))
 
@@ -326,14 +353,19 @@ filter(flights, arr_delay <= 120, dep_delay <= 120)
 #### arrange()
 ```{r}
 
-arrange(flights, year, month, day)
+arrange(flights, desc(month))
 
-arrange(flights, desc(arr_delay))
 
 
 ```
 
 #### mutate() 
+```{r}
+flights %>% mutate(junk = paste0("I added", month + day), junk = NULL ) %>% rename(Day = day) 
+
+```
+
+
 
 #### select()
 ```{r}
@@ -341,9 +373,11 @@ flights %>% select( year, month, day)
 
 select(flights, year:day)
 
+
+
 select(flights, -(year:day))
 
-flights %>% select(1:3)
+flights %>% select(num_ar('fl'))
 
 # • starts_with("abc") matches names that begin with “abc”. • ends_with("xyz") matches names that end with “xyz”.
 # • contains("ijk") matches names that contain “ijk”.
@@ -370,17 +404,28 @@ transmute(flights,
 
 #### group_by() and summarise()
 ```{r}
-flights %>% group_by( year, month, day) %>% summarize(delay = mean(dep_delay, na.rm = TRUE))
+flights %>% group_by( year, month, day) %>% filter(!is.na(arr_delay)) %>% summarise(delay = mean(dep_delay, na.rm = TRUE))
+
+df = as.data.frame(flights)
+rownames(df) <- NULL
+
+rownames(df) <- paste0("rn_", 1:dim(flights)[1])
+
+
+
+index <- df %>% group_by(day) %>% summarise(n = sum(day)) %>% mutate(sanity = ifelse(n  >11036, TRUE, FALSE))  %>% filter(sanity == TRUE) %>% select(day) %>% pull
+
 
 
 group_by(flights, dest) %>% 
 summarize(
 count = n(), dist = mean(distance, na.rm = TRUE),
 delay = mean(arr_delay, na.rm = TRUE) ) %>% 
-filter(count > 20, dest !="HNL") %>% 
+filter(count > 20, dest !="ABQ") %>% 
+
 ggplot(mapping = aes(x = dist, y = delay)) +
-      geom_point(aes(size = count), alpha = 1/3) +
-geom_smooth(se = FALSE)
+      geom_point(aes(size = count, color = dest), alpha = .98, show.legend = F) +
+geom_smooth() + theme_bw()
 
 ```
 
