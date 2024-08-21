@@ -429,6 +429,13 @@ geom_smooth() + theme_bw()
 
 ```
 
+#### ggplot
+
+```{r}
+mpg %>% ggplot(aes(x = displ, y = model)) +
+geom_boxplot() 
+
+```
 
 ```{r}
 
@@ -504,11 +511,14 @@ phyloseq(otu_table(ft, TRUE), phy_tree(tr), tax_table(tx)) %>% ggtree(layout = "
 ```{r, ONT,  eval=FALSE, echo=TRUE, message=FALSE, warning=FALSE}
 #setwd('/home/hackion/Dropbox/Old-2gb/postdoc/MAC2024')
 
+read.table("./data/count_matrix.tsv", sep = "\t", header  = T) 
+
 #Reading feature table
 ft = read_tsv('./data/count_matrix.tsv') %>% 
 as.data.frame() %>% 
-column_to_rownames('#OTU ID') %>% 
-as.matrix()
+column_to_rownames('OTU_ID') 
+
+ft <-ft[complete.cases(ft),]
 
 
 
@@ -517,7 +527,8 @@ tx = read.table('./data/taxonomy.tsv',
                 header = F, 
                 sep = '\t', 
                 row.names = 1)
-         
+names(tx)
+colnames(tx)
 # Parse the taxonomy
 tx = tidyr::separate(data = tx, 
             col = V2, 
@@ -528,8 +539,6 @@ tx = tidyr::separate(data = tx,
             apply(2, function(x) {gsub("^.__", "", x)})
 
 
-
-
 #reading metadata
 mt = read.table('./data/metadata.txt', header = TRUE) 
 
@@ -537,19 +546,26 @@ mt = read.table('./data/metadata.txt', header = TRUE)
 # Reading rep_seqs
 seqs = Biostrings::readDNAStringSet('./data/rep_seqs.fasta')
 
+
+
 # Reading the tree
 tr = ggtree::read.tree('./data/tree.nwk')
 
+pst = phyloseq(
+  otu_table(
+    ft, taxa_are_rows=T
+    ),
+  sample_data(mt),
+  tax_table(tx %>% as.matrix()),
+  phy_tree(tr),
+  refseq(seqs)
+  )
 
-# Merging data
-pst = phyloseq(otu_table(ft, taxa_are_rows = TRUE), 
-          tax_table(tx),
-          phy_tree(tr), 
-          sample_data(mt),
-          refseq(seqs))
 
+ps_rel =transform_sample_counts(pst, function(x){x/sum(x)})
 
-pst
+ps_rel %>% plot_bar() + 
+geom_col(aes(fill = Phylum))
 
 sum(rowSums(pst@otu_table)==0)
 ```
@@ -557,15 +573,24 @@ sum(rowSums(pst@otu_table)==0)
 ### 3. Filtering and preprocessing of reads
 ```{r,  eval=FALSE, echo=TRUE, message=FALSE, warning=FALSE}
 #removing unassigned and NA phylum taxa
-pst <- subset_taxa(pst, !is.na(Phylum) & !Phylum %in% c("", "uncharacterized", "unassigned"))
+pst <- subset_taxa(pst, !is.na(Phylum)  & !Phylum %in% c("", "uncharacterized", "unassigned") & !Kingdom == "k__Eukaryota")
 
+tax_table(pst) %>% data.frame() %>% dplyr::select(Kingdom) %>% unique()
 #keeping only bacterial kingdom
 pst <- subset_taxa(pst, Kingdom %in% "Bacteria")
 
 #subset_*()
 #prune_*()
+ps = transform_sample_counts(pst, function(x){x/sum(x)})
+sample_data(ps)
 ```
 
+```{r}
+psmelt(ps) %>% select(Phylum, group, Sample, Abundance) %>% group_by(Phylum, group) %>% summarize(re_abund = sum(Abundance), .groups = 'drop') %>% 
+ggplot(aes(x = group, y = re_abund, fill = Phylum)) +
+geom_col(position = 'stack')
+
+```
 
 ### GOOD NEWS: Microloop is gonna cover us this year
 
